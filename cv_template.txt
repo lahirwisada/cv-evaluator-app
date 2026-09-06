@@ -1,0 +1,60 @@
+RINGKASAN PROFESIONAL
+[Isi dengan ringkasan singkat 2-3 kalimat tentang diri Anda, pengalaman, dan keahlian utama]
+
+PENGALAMAN KERJA
+1. [Nama Perusahaan] | [Posisi] | [Tahun Mulai - Tahun Selesai]
+   - [Deskripsi tanggung jawab utama 1]
+   - [Deskripsi tanggung jawab utama 2]
+   - [Pencapaian atau hasil yang dicapai]
+
+2. [Nama Perusahaan] | [Posisi] | [Tahun Mulai - Tahun Selesai]
+   - [Deskripsi tanggung jawab utama 1]
+   - [Deskripsi tanggung jawab utama 2]
+
+3. [Nama Perusahaan] | [Posisi] | [Tahun Mulai - Tahun Selesai]
+   - [Deskripsi tanggung jawab utama]
+
+PENDIDIKAN
+- [Gelar] | [Nama Institusi] | [Tahun Lulus]
+  [IPK jika relevan]
+
+KEAHLIAN TEKNIS
+- [Skill 1]
+- [Skill 2]
+- [Skill 3]
+- [Skill 4]
+- [Skill 5]
+
+BAHASA
+- [Bahasa 1]: [Tingkat]
+- [Bahasa 2]: [Tingkat]
+
+SERTIFIKASI (Opsional)
+- [Nama Sertifikasi] | [Penerbit] | [Tahun]
+
+PROYEK (Opsional)
+1. [Nama Proyek] - [Deskripsi singkat]
+2. [Nama Proyek] - [Deskripsi singkat]
+
+---
+PANDUAN PENGISIAN:
+1. Ganti semua teks dalam kurung siku [...] dengan informasi Anda
+2. Untuk pengalaman kerja, cantumkan 3-5 pengalaman terbaik/relevan
+3. Setiap pengalaman kerja cukup 2-3 poin deskripsi
+4. Total panjang CV disarankan tidak lebih dari 3000 karakter
+5. Format CV ini sudah dioptimalkan untuk dievaluasi oleh AI
+
+Contoh pengisian:
+
+RINGKASAN PROFESIONAL
+Full Stack Developer dengan 5 tahun pengalaman mengembangkan aplikasi web dan mobile. Menguasai JavaScript, Python, dan database SQL.
+
+PENGALAMAN KERJA
+1. PT Tech Solutions | Full Stack Developer | 2020-2024
+   - Mengembangkan aplikasi e-commerce dengan React dan Node.js
+   - Mengelola database PostgreSQL dengan 1 juta+ pengguna
+   - Meningkatkan performa API response time 40%
+
+2. PT Digital Creative | Junior Developer | 2018-2020
+   - Membangun website company profile dengan WordPress
+   - Membuat sistem manajemen konten internal
