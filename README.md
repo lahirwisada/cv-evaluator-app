@@ -1,4 +1,3 @@
-
 # CV Evaluator
 
 Aplikasi evaluasi CV berbasis AI yang berjalan offline dan lokal di komputer Anda.
@@ -13,11 +12,13 @@ CV Evaluator adalah aplikasi desktop yang menggunakan kecerdasan buatan untuk me
 - Privasi Terjaga - Data CV dan JD tidak pernah dikirim ke server
 - Dua Mode - Terminal dan Web Server
 - Multi Format - Mendukung PDF, DOCX, DOC, ODT, dan TXT
+- Multi Model - Mendukung berbagai model GGUF
 - Evaluasi Otomatis - Memberikan skor, verdict, kekuatan, kelemahan, dan rekomendasi perbaikan
 - Template CV - Template sederhana untuk membantu membuat CV yang optimal
 - Stop Proses - Tombol untuk menghentikan evaluasi yang sedang berjalan
 - Penyimpanan Hasil - Hasil evaluasi disimpan otomatis di folder results
 - Loading Animation - Indikator progres untuk setiap tahap evaluasi
+- Konfigurasi Fleksibel - Argumen CLI untuk mengatur model dan parameter token
 
 ## Persyaratan Sistem
 
@@ -49,7 +50,7 @@ Aplikasi membutuhkan file model AI untuk berfungsi. Unduh salah satu model berik
 | [Llama-3.1-Storm-8B-Q3_K_XL.gguf](https://huggingface.co/bartowski/Llama-3.1-Storm-8B-GGUF/blob/main/Llama-3.1-Storm-8B-Q3_K_XL.gguf) | ~4.3 GB | 12 GB | Tinggi |
 
 **Cara Unduh:**
-1. Kunjungi https://huggingface.co/mradermacher/LFM2.5-1.2B-MOAT-i1-GGUF
+1. Kunjungi halaman model di Hugging Face
 2. Cari file dengan ekstensi `.gguf`
 3. Unduh file yang sesuai dengan spesifikasi komputer Anda
 
@@ -112,7 +113,7 @@ Buka browser dan akses: `http://localhost:8080`
 ./cv-evaluator --generate-template-cv --file-jobesk=/path/to/jobdesc.pdf
 ```
 
-### Argumen Command Line
+## Argumen Command Line
 
 | Argumen | Default | Deskripsi |
 |---------|---------|-----------|
@@ -129,16 +130,62 @@ Buka browser dan akses: `http://localhost:8080`
 | `--output` | `4096` | Max output tokens dari model |
 | `--version` | - | Tampilkan versi aplikasi |
 
+## Penggunaan dengan Custom Model dan Konfigurasi Token
+
+### Mengganti Model
+
+Secara default, aplikasi menggunakan model `Llama-3.1-Storm-8B-Q3_K_XL.gguf`. Anda dapat mengganti model dengan argumen `--model`:
+
+```bash
+# Menggunakan model LFM2.5
+./cv-evaluator --cv=cv.pdf --file-jobesk=jobdesc.pdf --model ./models/LFM2.5-1.2B-MOAT.i1-Q6_K.gguf
+
+# Menggunakan model lain
+./cv-evaluator --cv=cv.pdf --file-jobesk=jobdesc.pdf --model ./models/model_lain.gguf
+```
+
+### Mengatur Parameter Token
+
+Anda dapat mengatur tiga parameter token sesuai kebutuhan:
+
+1. **`--context`** - Max context tokens (seberapa banyak teks yang dapat diproses model)
+2. **`--chunk`** - Max chunk characters (seberapa besar potongan teks per bagian)
+3. **`--output`** - Max output tokens (seberapa panjang respons yang dihasilkan model)
+
+```bash
+# Konfigurasi untuk model besar (Llama 8B)
+./cv-evaluator --cv=cv.pdf --file-jobesk=jobdesc.pdf --context 32768 --chunk 6000 --output 4096
+
+# Konfigurasi untuk model kecil (LFM2.5 1.2B)
+./cv-evaluator --cv=cv.pdf --file-jobesk=jobdesc.pdf --context 2048 --chunk 1500 --output 1800
+
+# Konfigurasi untuk CV yang sangat panjang
+./cv-evaluator --cv=cv.pdf --file-jobesk=jobdesc.pdf --context 16384 --chunk 4000 --output 2048
+```
+
+### Rekomendasi Konfigurasi Berdasarkan Model
+
+| Model | `--context` | `--chunk` | `--output` |
+|-------|-------------|-----------|------------|
+| LFM2.5-1.2B-MOAT.i1-IQ2_M | 2048 | 1500 | 1800 |
+| LFM2.5-1.2B-MOAT.i1-Q6_K | 2048 | 1500 | 1800 |
+| Llama-3.1-Storm-8B-Q3_K_XL | 32768 | 6000 | 4096 |
+| Gemma 3n 8B | 32768 | 6000 | 4096 |
+| Mistral 7B | 32768 | 5000 | 3072 |
+
 ### Contoh Penggunaan Lengkap
 
 ```bash
-# Menggunakan model kustom dengan konfigurasi tertentu
-./cv-evaluator --cv=cv.pdf --file-jobesk=jobdesc.pdf --model ./models/model.gguf --context 32768 --output 4096
+# Menggunakan model LFM2.5 dengan konfigurasi optimal
+./cv-evaluator --cv=cv.pdf --file-jobesk=jobdesc.pdf --model ./models/LFM2.5-1.2B-MOAT.i1-Q6_K.gguf --context 2048 --chunk 1500 --output 1800
 
-# Mode web server dengan port berbeda
-./cv-evaluator --as-host --port 9000
+# Menggunakan model Llama dengan konfigurasi optimal
+./cv-evaluator --cv=cv.pdf --file-jobesk=jobdesc.pdf --model ./models/Llama-3.1-Storm-8B-Q3_K_XL.gguf --context 32768 --chunk 6000 --output 4096
 
-# Menampilkan versi
+# Mode web server dengan model dan konfigurasi kustom
+./cv-evaluator --as-host --port 8080 --model ./models/model.gguf --context 32768 --chunk 6000 --output 4096
+
+# Menampilkan versi dan konfigurasi yang digunakan
 ./cv-evaluator --version
 ```
 
@@ -218,12 +265,13 @@ Hasil evaluasi disimpan di folder `results/` dengan format JSON:
 
 ### Error: Requested tokens exceed context window
 
-**Penyebab:** CV atau JD terlalu panjang
+**Penyebab:** CV atau JD terlalu panjang untuk konteks model
 
 **Solusi:**
 1. Kurangi panjang teks CV atau JD
 2. Gunakan template CV yang disediakan
-3. Tingkatkan parameter `--context` jika menggunakan model yang mendukung
+3. Tingkatkan parameter `--context` jika model mendukung
+4. Gunakan model dengan konteks lebih besar (Llama 8B)
 
 ### Error JSON saat evaluasi
 
@@ -250,6 +298,7 @@ Hasil evaluasi disimpan di folder `results/` dengan format JSON:
 1. Gunakan model yang lebih ringan (IQ2_M)
 2. Tutup aplikasi lain yang menggunakan banyak RAM
 3. Gunakan model dengan kuantisasi lebih rendah
+4. Kurangi parameter `--context` dan `--output`
 
 ## File dan Folder
 
@@ -266,11 +315,12 @@ Hasil evaluasi disimpan di folder `results/` dengan format JSON:
 
 Aplikasi ini mendukung semua model dalam format GGUF. Beberapa model yang direkomendasikan:
 
-| Model | Kelebihan | Kekurangan |
-|-------|-----------|------------|
-| LFM2.5-1.2B-MOAT | Ringan, cepat | Kualitas evaluasi sedang |
-| Llama-3.1-Storm-8B | Kualitas tinggi | Membutuhkan RAM besar |
-| Gemma 3n 8B | Kualitas tinggi | Membutuhkan RAM besar |
+| Model | Kelebihan | Kekurangan | Konteks Maks |
+|-------|-----------|------------|--------------|
+| LFM2.5-1.2B-MOAT | Ringan, cepat | Kualitas evaluasi sedang | 2048 |
+| Llama-3.1-Storm-8B | Kualitas tinggi | Membutuhkan RAM besar | 32768 |
+| Gemma 3n 8B | Kualitas tinggi | Membutuhkan RAM besar | 32768 |
+| Mistral 7B | Kualitas baik | Membutuhkan RAM besar | 32768 |
 
 ## Keamanan dan Privasi
 
