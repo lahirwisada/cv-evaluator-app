@@ -54,6 +54,9 @@ Aplikasi membutuhkan file model AI untuk berfungsi. Unduh salah satu model berik
 2. Cari file dengan ekstensi `.gguf`
 3. Unduh file yang sesuai dengan spesifikasi komputer Anda
 
+**model default** : [LFM2.5-1.2B-MOAT.i1-Q6_K.gguf](https://huggingface.co/mradermacher/LFM2.5-1.2B-MOAT-i1-GGUF/resolve/main/LFM2.5-1.2B-MOAT.i1-Q6_K.gguf)
+download model ini untuk dapat menjalankan app.
+
 ### 3. Struktur Folder
 
 Buat folder dengan struktur berikut:
